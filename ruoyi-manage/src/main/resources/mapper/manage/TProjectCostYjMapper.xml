@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.TProjectCostYjMapper">
+    
+    <resultMap type="TProjectCostYj" id="TProjectCostYjResult">
+        <result property="id"    column="id"    />
+        <result property="projId"    column="proj_id"    />
+        <result property="projType"    column="proj_type"    />
+        <result property="costMonth"    column="cost_month"    />
+        <result property="xmsr"    column="xmsr"    />
+        <result property="xfwbfwf"    column="xfwbfwf"    />
+        <result property="rgcb"    column="rgcb"    />
+        <result property="ldbhf"    column="ldbhf"    />
+        <result property="wzxh"    column="wzxh"    />
+        <result property="bxfy"    column="bxfy"    />
+        <result property="cwfy"    column="cwfy"    />
+        <result property="ywfy"    column="ywfy"    />
+        <result property="zjf"    column="zjf"    />
+        <result property="qtfy"    column="qtfy"    />
+        <result property="xfrysl"    column="xfrysl"    />
+        <result property="ygsl"    column="ygsl"    />
+        <result property="statusCn"    column="status_cn"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <resultMap id="TProjectCostYjTProjectPersonCostResult" type="TProjectCostYj" extends="TProjectCostYjResult">
+        <collection property="tProjectPersonCostList" notNullColumn="sub_id" javaType="java.util.List" resultMap="TProjectPersonCostResult" />
+    </resultMap>
+
+    <resultMap type="TProjectPersonCost" id="TProjectPersonCostResult">
+        <result property="id"    column="sub_id"    />
+        <result property="projId"    column="sub_proj_id"    />
+        <result property="projType"    column="sub_proj_type"    />
+        <result property="costId"    column="sub_cost_id"    />
+        <result property="lylbbm"    column="sub_lylbbm"    />
+        <result property="lylbmc"    column="sub_lylbmc"    />
+        <result property="xzbz"    column="sub_xzbz"    />
+        <result property="sl"    column="sub_sl"    />
+        <result property="hj"    column="sub_hj"    />
+        <result property="createTime"    column="sub_create_time"    />
+        <result property="createBy"    column="sub_create_by"    />
+        <result property="updateTime"    column="sub_update_time"    />
+        <result property="updateBy"    column="sub_update_by"    />
+    </resultMap>
+
+    <sql id="selectTProjectCostYjVo">
+        select id, proj_id, proj_type, cost_month, xmsr, xfwbfwf, rgcb, ldbhf, wzxh, bxfy, cwfy, ywfy, zjf, qtfy, xfrysl, ygsl, status_cn, status, create_time, create_by, update_time, update_by, remark from t_project_cost_yj
+    </sql>
+
+    <select id="selectTProjectCostYjList" parameterType="TProjectCostYj" resultMap="TProjectCostYjResult">
+        <include refid="selectTProjectCostYjVo"/>
+        <where>  
+            <if test="projId != null "> and proj_id = #{projId}</if>
+            <if test="projType != null  and projType != ''"> and proj_type = #{projType}</if>
+            <if test="costMonth != null "> and cost_month = #{costMonth}</if>
+            <if test="xmsr != null "> and xmsr = #{xmsr}</if>
+            <if test="xfwbfwf != null "> and xfwbfwf = #{xfwbfwf}</if>
+            <if test="rgcb != null "> and rgcb = #{rgcb}</if>
+            <if test="ldbhf != null "> and ldbhf = #{ldbhf}</if>
+            <if test="wzxh != null "> and wzxh = #{wzxh}</if>
+            <if test="bxfy != null "> and bxfy = #{bxfy}</if>
+            <if test="cwfy != null "> and cwfy = #{cwfy}</if>
+            <if test="ywfy != null "> and ywfy = #{ywfy}</if>
+            <if test="zjf != null "> and zjf = #{zjf}</if>
+            <if test="qtfy != null "> and qtfy = #{qtfy}</if>
+            <if test="xfrysl != null "> and xfrysl = #{xfrysl}</if>
+            <if test="ygsl != null "> and ygsl = #{ygsl}</if>
+            <if test="statusCn != null  and statusCn != ''"> and status_cn = #{statusCn}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTProjectCostYjById" parameterType="Long" resultMap="TProjectCostYjTProjectPersonCostResult">
+        select a.id, a.proj_id, a.proj_type, a.cost_month, a.xmsr, a.xfwbfwf, a.rgcb, a.ldbhf, a.wzxh, a.bxfy, a.cwfy, a.ywfy, a.zjf, a.qtfy, a.xfrysl, a.ygsl, a.status_cn, a.status, a.create_time, a.create_by, a.update_time, a.update_by, a.remark,
+ b.id as sub_id, b.proj_id as sub_proj_id, b.proj_type as sub_proj_type, b.cost_id as sub_cost_id, b.lylbbm as sub_lylbbm, b.lylbmc as sub_lylbmc, b.xzbz as sub_xzbz, b.sl as sub_sl, b.hj as sub_hj, b.create_time as sub_create_time, b.create_by as sub_create_by, b.update_time as sub_update_time, b.update_by as sub_update_by
+        from t_project_cost_yj a
+        left join t_project_person_cost b on b.cost_id = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertTProjectCostYj" parameterType="TProjectCostYj" useGeneratedKeys="true" keyProperty="id">
+        insert into t_project_cost_yj
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projId != null">proj_id,</if>
+            <if test="projType != null and projType != ''">proj_type,</if>
+            <if test="costMonth != null">cost_month,</if>
+            <if test="xmsr != null">xmsr,</if>
+            <if test="xfwbfwf != null">xfwbfwf,</if>
+            <if test="rgcb != null">rgcb,</if>
+            <if test="ldbhf != null">ldbhf,</if>
+            <if test="wzxh != null">wzxh,</if>
+            <if test="bxfy != null">bxfy,</if>
+            <if test="cwfy != null">cwfy,</if>
+            <if test="ywfy != null">ywfy,</if>
+            <if test="zjf != null">zjf,</if>
+            <if test="qtfy != null">qtfy,</if>
+            <if test="xfrysl != null">xfrysl,</if>
+            <if test="ygsl != null">ygsl,</if>
+            <if test="statusCn != null">status_cn,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projId != null">#{projId},</if>
+            <if test="projType != null and projType != ''">#{projType},</if>
+            <if test="costMonth != null">#{costMonth},</if>
+            <if test="xmsr != null">#{xmsr},</if>
+            <if test="xfwbfwf != null">#{xfwbfwf},</if>
+            <if test="rgcb != null">#{rgcb},</if>
+            <if test="ldbhf != null">#{ldbhf},</if>
+            <if test="wzxh != null">#{wzxh},</if>
+            <if test="bxfy != null">#{bxfy},</if>
+            <if test="cwfy != null">#{cwfy},</if>
+            <if test="ywfy != null">#{ywfy},</if>
+            <if test="zjf != null">#{zjf},</if>
+            <if test="qtfy != null">#{qtfy},</if>
+            <if test="xfrysl != null">#{xfrysl},</if>
+            <if test="ygsl != null">#{ygsl},</if>
+            <if test="statusCn != null">#{statusCn},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProjectCostYj" parameterType="TProjectCostYj">
+        update t_project_cost_yj
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projId != null">proj_id = #{projId},</if>
+            <if test="projType != null and projType != ''">proj_type = #{projType},</if>
+            <if test="costMonth != null">cost_month = #{costMonth},</if>
+            <if test="xmsr != null">xmsr = #{xmsr},</if>
+            <if test="xfwbfwf != null">xfwbfwf = #{xfwbfwf},</if>
+            <if test="rgcb != null">rgcb = #{rgcb},</if>
+            <if test="ldbhf != null">ldbhf = #{ldbhf},</if>
+            <if test="wzxh != null">wzxh = #{wzxh},</if>
+            <if test="bxfy != null">bxfy = #{bxfy},</if>
+            <if test="cwfy != null">cwfy = #{cwfy},</if>
+            <if test="ywfy != null">ywfy = #{ywfy},</if>
+            <if test="zjf != null">zjf = #{zjf},</if>
+            <if test="qtfy != null">qtfy = #{qtfy},</if>
+            <if test="xfrysl != null">xfrysl = #{xfrysl},</if>
+            <if test="ygsl != null">ygsl = #{ygsl},</if>
+            <if test="statusCn != null">status_cn = #{statusCn},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTProjectCostYjById" parameterType="Long">
+        delete from t_project_cost_yj where id = #{id}
+    </delete>
+
+    <delete id="deleteTProjectCostYjByIds" parameterType="String">
+        delete from t_project_cost_yj where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteTProjectPersonCostByCostIds" parameterType="String">
+        delete from t_project_person_cost where cost_id in 
+        <foreach item="costId" collection="array" open="(" separator="," close=")">
+            #{costId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTProjectPersonCostByCostId" parameterType="Long">
+        delete from t_project_person_cost where cost_id = #{costId}
+    </delete>
+
+    <insert id="batchTProjectPersonCost">
+        insert into t_project_person_cost( id, proj_id, proj_type, cost_id, lylbbm, lylbmc, xzbz, sl, hj, create_time, create_by, update_time, update_by) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.projId}, #{item.projType}, #{item.costId}, #{item.lylbbm}, #{item.lylbmc}, #{item.xzbz}, #{item.sl}, #{item.hj}, #{item.createTime}, #{item.createBy}, #{item.updateTime}, #{item.updateBy})
+        </foreach>
+    </insert>
+
+</mapper>

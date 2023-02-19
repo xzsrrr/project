@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.TProjectPersonCostMapper">
+    
+    <resultMap type="TProjectPersonCost" id="TProjectPersonCostResult">
+        <result property="id"    column="id"    />
+        <result property="projId"    column="proj_id"    />
+        <result property="projType"    column="proj_type"    />
+        <result property="costId"    column="cost_id"    />
+        <result property="lylbbm"    column="lylbbm"    />
+        <result property="lylbmc"    column="lylbmc"    />
+        <result property="xzbz"    column="xzbz"    />
+        <result property="sl"    column="sl"    />
+        <result property="hj"    column="hj"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTProjectPersonCostVo">
+        select id, proj_id, proj_type, cost_id, lylbbm, lylbmc, xzbz, sl, hj, create_time, create_by, update_time, update_by from t_project_person_cost
+    </sql>
+
+    <select id="selectTProjectPersonCostList" parameterType="TProjectPersonCost" resultMap="TProjectPersonCostResult">
+        <include refid="selectTProjectPersonCostVo"/>
+        <where>  
+            <if test="projId != null "> and proj_id = #{projId}</if>
+            <if test="projType != null  and projType != ''"> and proj_type = #{projType}</if>
+            <if test="costId != null "> and cost_id = #{costId}</if>
+            <if test="lylbbm != null  and lylbbm != ''"> and lylbbm = #{lylbbm}</if>
+            <if test="lylbmc != null  and lylbmc != ''"> and lylbmc = #{lylbmc}</if>
+            <if test="xzbz != null "> and xzbz = #{xzbz}</if>
+            <if test="sl != null "> and sl = #{sl}</if>
+            <if test="hj != null "> and hj = #{hj}</if>
+        </where>
+    </select>
+    
+    <select id="selectTProjectPersonCostById" parameterType="Long" resultMap="TProjectPersonCostResult">
+        <include refid="selectTProjectPersonCostVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTProjectPersonCost" parameterType="TProjectPersonCost" useGeneratedKeys="true" keyProperty="id">
+        insert into t_project_person_cost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projId != null">proj_id,</if>
+            <if test="projType != null">proj_type,</if>
+            <if test="costId != null">cost_id,</if>
+            <if test="lylbbm != null and lylbbm != ''">lylbbm,</if>
+            <if test="lylbmc != null">lylbmc,</if>
+            <if test="xzbz != null">xzbz,</if>
+            <if test="sl != null">sl,</if>
+            <if test="hj != null">hj,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projId != null">#{projId},</if>
+            <if test="projType != null">#{projType},</if>
+            <if test="costId != null">#{costId},</if>
+            <if test="lylbbm != null and lylbbm != ''">#{lylbbm},</if>
+            <if test="lylbmc != null">#{lylbmc},</if>
+            <if test="xzbz != null">#{xzbz},</if>
+            <if test="sl != null">#{sl},</if>
+            <if test="hj != null">#{hj},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProjectPersonCost" parameterType="TProjectPersonCost">
+        update t_project_person_cost
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projId != null">proj_id = #{projId},</if>
+            <if test="projType != null">proj_type = #{projType},</if>
+            <if test="costId != null">cost_id = #{costId},</if>
+            <if test="lylbbm != null and lylbbm != ''">lylbbm = #{lylbbm},</if>
+            <if test="lylbmc != null">lylbmc = #{lylbmc},</if>
+            <if test="xzbz != null">xzbz = #{xzbz},</if>
+            <if test="sl != null">sl = #{sl},</if>
+            <if test="hj != null">hj = #{hj},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTProjectPersonCostById" parameterType="Long">
+        delete from t_project_person_cost where id = #{id}
+    </delete>
+
+    <delete id="deleteTProjectPersonCostByIds" parameterType="String">
+        delete from t_project_person_cost where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
